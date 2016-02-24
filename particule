@@ -1,0 +1,252 @@
+package com.badhub.fr.events;
+
+import java.util.ArrayList; 
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import com.badhub.fr.utils.ParticleEffect;
+
+public class Particule implements Listener {
+	
+	ArrayList<Player> flammep = new ArrayList<Player>();
+	  ArrayList<Player> fuméep = new ArrayList<Player>();
+	  ArrayList<Player> coeurp = new ArrayList<Player>();
+	  ArrayList<Player> musiquep = new ArrayList<Player>();
+	  ArrayList<Player> nuagep = new ArrayList<Player>();
+	  ArrayList<Player> redstonep = new ArrayList<Player>();
+	  ArrayList<Player> slimep = new ArrayList<Player>();
+	
+	  @EventHandler
+	  public void onMove(PlayerMoveEvent e)
+	  {
+	    Player p = e.getPlayer();
+	    if (this.flammep.contains(p)) {
+	      ParticleEffect.FLAME.display(0.0F, 0.65F, 0.0F, 0.0F, 30, p.getLocation(), 100.0D);
+	      ParticleEffect.FLAME.display(0.0F, 0.65F, 0.0F, 0.0F, 30, p.getLocation(), 100.0D);
+	    }
+	    if (this.fuméep.contains(p)) {
+	      ParticleEffect.SMOKE_LARGE.display(0.0F, 0.65F, 0.0F, 0.0F, 30, p.getLocation(), 100.0D);
+	    }
+	    if (this.coeurp.contains(p)) {
+	      ParticleEffect.HEART.display(0.0F, 0.65F, 0.0F, 0.0F, 5, p.getLocation(), 100.0D);
+	    }
+	    if (this.musiquep.contains(p)) {
+	      ParticleEffect.NOTE.display(0.0F, 0.65F, 0.0F, 1.0F, 3, p.getLocation(), 100.0D);
+	      ParticleEffect.NOTE.display(0.0F, 0.65F, 0.0F, 2.0F, 3, p.getLocation(), 100.0D);
+	      ParticleEffect.NOTE.display(0.0F, 0.65F, 0.0F, 3.0F, 3, p.getLocation(), 100.0D);
+	      ParticleEffect.NOTE.display(0.0F, 0.65F, 0.0F, 4.0F, 3, p.getLocation(), 100.0D);
+	    }
+	    if (this.nuagep.contains(p)) {
+	      ParticleEffect.CLOUD.display(0.0F, 0.65F, 0.0F, 0.0F, 20, p.getLocation(), 100.0D);
+	    }
+	    if (this.redstonep.contains(p)) {
+	      ParticleEffect.REDSTONE.display(0.0F, 0.65F, 0.0F, 1.0F, 20, p.getLocation(), 50.0D);
+	      ParticleEffect.REDSTONE.display(0.0F, 0.65F, 0.0F, 2.0F, 20, p.getLocation(), 50.0D);
+	      ParticleEffect.REDSTONE.display(0.0F, 0.65F, 0.0F, 3.0F, 20, p.getLocation(), 50.0D);
+	      ParticleEffect.REDSTONE.display(0.0F, 0.65F, 0.0F, 4.0F, 20, p.getLocation(), 50.0D);
+	      ParticleEffect.REDSTONE.display(0.0F, 0.65F, 0.0F, 5.0F, 20, p.getLocation(), 50.0D);
+	      ParticleEffect.REDSTONE.display(0.0F, 0.65F, 0.0F, 6.0F, 20, p.getLocation(), 50.0D);
+	    }
+	    if (this.slimep.contains(p))
+	      ParticleEffect.SLIME.display(0.0F, 0.65F, 0.0F, 0.0F, 20, p.getLocation(), 100.0D); 
+	  }
+	
+	@EventHandler
+	public void InventoryClick(InventoryClickEvent e){
+		if(ChatColor.stripColor(e.getInventory().getName()).equalsIgnoreCase("§8§m--- §cKits §8§m---")){
+			@SuppressWarnings("unused")
+			Player p = (Player) e.getWhoClicked();
+			e.setCancelled(true);
+		}
+		if(e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR){
+			return;
+		}
+		
+		switch(e.getCurrentItem().getType()){
+		case TORCH:
+			Player p = (Player) e.getWhoClicked();
+			this.fuméep.add(p);
+			this.coeurp.remove(p);
+			this.flammep.remove(p);
+			this.musiquep.remove(p);
+			this.nuagep.remove(p);
+			this.redstonep.remove(p);
+			this.slimep.remove(p);
+			p.playSound(p.getLocation(), Sound.LEVEL_UP, 10, 1);
+			p.sendMessage("§8[§6Particules§8] §cEffect actif §7>> §6§lFumée");
+			p.closeInventory();
+			break;
+		case SLIME_BALL:
+			Player p1 = (Player) e.getWhoClicked();
+			this.fuméep.remove(p1);
+			this.coeurp.remove(p1);
+			this.flammep.remove(p1);
+			this.musiquep.remove(p1);
+			this.nuagep.remove(p1);
+			this.redstonep.remove(p1);
+			this.slimep.add(p1);
+			p1.playSound(p1.getLocation(), Sound.LEVEL_UP, 10, 1);
+			p1.sendMessage("§8[§6Particules§8] §cEffect actif §7>> §6§lSlime");
+			p1.closeInventory();
+			break;
+		case RED_ROSE:
+			Player p2 = (Player) e.getWhoClicked();
+			this.fuméep.remove(p2);
+			this.coeurp.add(p2);
+			this.flammep.remove(p2);
+			this.musiquep.remove(p2);
+			this.nuagep.remove(p2);
+			this.redstonep.remove(p2);
+			this.slimep.remove(p2);
+			p2.playSound(p2.getLocation(), Sound.LEVEL_UP, 10, 1);
+			p2.sendMessage("§8[§6Particules§8] §cEffect actif §7>> §6§lCoeurs");
+			p2.closeInventory();
+			break;
+		case LAVA_BUCKET:
+			Player p3 = (Player) e.getWhoClicked();
+			this.fuméep.remove(p3);
+			this.coeurp.remove(p3);
+			this.flammep.add(p3);
+			this.musiquep.remove(p3);
+			this.nuagep.remove(p3);
+			this.redstonep.remove(p3);
+			this.slimep.remove(p3);
+			p3.playSound(p3.getLocation(), Sound.LEVEL_UP, 10, 1);
+			p3.sendMessage("§8[§6Particules§8] §cEffect actif §7>> §6§lFlamme");
+			p3.closeInventory();
+			break;
+		case PAPER:
+			Player p4 = (Player) e.getWhoClicked();
+			this.fuméep.remove(p4);
+			this.coeurp.remove(p4);
+			this.flammep.remove(p4);
+			this.musiquep.remove(p4);
+			this.nuagep.remove(p4);
+			this.redstonep.remove(p4);
+			this.slimep.remove(p4);
+			p4.playSound(p4.getLocation(), Sound.LEVEL_UP, 10, 1);
+			p4.sendMessage("§8[§6Particules§8] §cEffect actif §7>> §6§lAucun");
+			p4.closeInventory();
+			break;
+		case STAINED_GLASS_PANE:
+			Player p5 = (Player) e.getWhoClicked();
+			p5.closeInventory();
+			break;
+		case FIREWORK_CHARGE:
+			Player p6 = (Player) e.getWhoClicked();
+			p6.sendMessage("§8[§6Particules§8] §cEffect actif §7>> §cErreur particule en développement");
+			p6.closeInventory();
+			break;
+		
+		default:
+			break;
+		}
+	}
+	
+    @EventHandler
+    public void onInteractItem(PlayerInteractEvent e){
+    	Player p = e.getPlayer();
+    	int taille = 36;
+    	if(e.getItem().getType() == Material.ENDER_CHEST){
+    		if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK){
+    				Inventory inv = Bukkit.createInventory(null, taille, "Particules");
+    				
+    				ItemStack faction = new ItemStack(Material.TORCH, 1);
+    				ItemMeta factionM = faction.getItemMeta();
+    				factionM.setDisplayName("§6§lFumée");
+    				faction.setItemMeta(factionM);
+    				
+    				inv.setItem(11, faction);
+    				
+    				ItemStack slime = new ItemStack(Material.SLIME_BALL);
+    				ItemMeta slimeM = slime.getItemMeta();
+    				slimeM.setDisplayName("§6§lSlime");
+    				slime.setItemMeta(slimeM);
+    				
+    				inv.setItem(12, slime);
+    				
+    				ItemStack rose = new ItemStack(Material.RED_ROSE);
+    				ItemMeta roseM = rose.getItemMeta();
+    				roseM.setDisplayName("§6§lCoeur");
+    				rose.setItemMeta(roseM);
+    				
+    				inv.setItem(13, rose);
+    				
+    				ItemStack flamme = new ItemStack(Material.LAVA_BUCKET);
+    				ItemMeta flammeM = flamme.getItemMeta();
+    				flammeM.setDisplayName("§6§lFlamme");
+    				flamme.setItemMeta(flammeM);
+    				
+    				inv.setItem(14, flamme);
+    				
+    				ItemStack paper = new ItemStack(Material.PAPER);
+    				ItemMeta paperM = paper.getItemMeta();
+    				paperM.setDisplayName("§6§lAucun");
+    				paper.setItemMeta(paperM);
+    				
+    				inv.setItem(4, paper);
+    				
+    				ItemStack err = new ItemStack(Material.FIREWORK_CHARGE);
+    				ItemMeta errM = err.getItemMeta();
+    				errM.setDisplayName("§6§lParticule En Développement");
+    				err.setItemMeta(errM);
+    				
+    				inv.setItem(15, err);
+    				inv.setItem(20, err);
+    				inv.setItem(21, err);
+    				inv.setItem(22, err);
+    				inv.setItem(23, err);
+    				inv.setItem(24, err);
+    				
+    				ItemStack vitre = new ItemStack(Material.STAINED_GLASS_PANE);
+    				ItemMeta vitreM = vitre.getItemMeta();
+    				vitre.setDurability((short)0);
+    				vitreM.setDisplayName(" ");
+    				vitre.setItemMeta(vitreM);
+    				
+    				inv.setItem(0, vitre);
+    				inv.setItem(1, vitre);
+    				inv.setItem(2, vitre);
+    				inv.setItem(3, vitre);
+    				inv.setItem(5, vitre);
+    				inv.setItem(6, vitre);
+    				inv.setItem(7, vitre);
+    				inv.setItem(8, vitre);
+    				inv.setItem(9, vitre);
+    				inv.setItem(10, vitre);
+    				inv.setItem(18, vitre);
+    				inv.setItem(19, vitre);
+    				inv.setItem(16, vitre);
+    				inv.setItem(17, vitre);
+    				inv.setItem(25, vitre);
+    				inv.setItem(26, vitre);
+    				inv.setItem(27, vitre);
+    				inv.setItem(28, vitre);
+    				inv.setItem(29, vitre);
+    				inv.setItem(30, vitre);
+    				inv.setItem(31, vitre);
+    				inv.setItem(32, vitre);
+    				inv.setItem(33, vitre);
+    				inv.setItem(34, vitre);
+    				inv.setItem(35, vitre);
+    				
+    				p.openInventory(inv);
+    				
+    		}
+    	}
+    }
+
+}
